@@ -30,10 +30,10 @@
   ],
 
   "side_panel": {
-    "default_path": "src/sidepanel/index.html"
+    "default_path": "sidepanel.html"
   },
 
-  "options_page": "src/options/index.html",
+  "options_page": "options.html",
 
   "action": {
     "default_title": "AI Form Filler"
