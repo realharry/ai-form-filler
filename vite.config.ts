@@ -23,6 +23,18 @@ export default defineConfig({
             return 'content.js'
           }
           return '[name].js'
+        },
+        assetFileNames: (assetInfo) => {
+          // Ensure HTML files are placed at root level with correct names
+          if (assetInfo.name?.endsWith('.html')) {
+            if (assetInfo.name.includes('sidepanel')) {
+              return 'sidepanel.html'
+            }
+            if (assetInfo.name.includes('options')) {
+              return 'options.html'
+            }
+          }
+          return 'assets/[name]-[hash][extname]'
         }
       }
     },
