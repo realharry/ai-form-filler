@@ -14,7 +14,9 @@
 
   "host_permissions": [
     "http://*/*",
-    "https://*/*"
+    "https://*/*",
+    "https://api.openai.com/*",
+    "https://api.anthropic.com/*"
   ],
 
   "background": {
