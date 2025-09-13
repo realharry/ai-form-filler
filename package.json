@@ -1,0 +1,29 @@
+{
+  "name": "ai-form-filler",
+  "version": "1.0.0",
+  "description": "This extension allows users to fill out HTML forms on the current tab page using AI. It features a sidepanel window that displays replicated forms. The AI model suggests or automatically fills in the form fields, which the user can then accept or modify. The replicated forms are automatically updated when the user navigates to different tabs.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite build --watch",
+    "build": "tsc && vite build && npm run postbuild",
+    "postbuild": "cp dist/src/sidepanel/index.html dist/sidepanel.html && cp dist/src/options/index.html dist/options.html",
+    "preview": "vite preview",
+    "lint": "echo \"No linting configured yet\"",
+    "test": "echo \"No tests configured yet\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/chrome": "^0.1.11",
+    "@types/react": "^19.1.12",
+    "@types/react-dom": "^19.1.9",
+    "@vitejs/plugin-react": "^5.0.2",
+    "typescript": "^5.9.2",
+    "vite": "^7.1.5"
+  },
+  "dependencies": {
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
+  }
+}
