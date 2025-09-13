@@ -41,8 +41,23 @@ function App() {
         throw new Error('No active tab found')
       }
 
-      // Request forms from content script
-      const response = await chrome.tabs.sendMessage(tab.id, { type: 'GET_FORMS' })
+      // Check if this is a valid page for content scripts
+      if (!tab.url || tab.url.startsWith('chrome://') || tab.url.startsWith('chrome-extension://') || tab.url.startsWith('moz-extension://')) {
+        setForms([])
+        setError('Forms cannot be detected on this type of page. Please navigate to a regular webpage.')
+        return
+      }
+
+      // Request forms through background script for better error handling
+      const response = await new Promise<any>((resolve, reject) => {
+        chrome.runtime.sendMessage({ type: 'GET_FORMS', tabId: tab.id }, (response) => {
+          if (chrome.runtime.lastError) {
+            reject(new Error(chrome.runtime.lastError.message))
+          } else {
+            resolve(response)
+          }
+        })
+      })
       
       if (response.error) {
         throw new Error(response.error)
@@ -98,10 +113,21 @@ function App() {
       }
 
       const fieldData = formValues[formId] || {}
-      const response = await chrome.tabs.sendMessage(tab.id, {
-        type: 'FILL_FORM',
-        formId,
-        fieldData
+      
+      // Send message through background script for better error handling
+      const response = await new Promise<any>((resolve, reject) => {
+        chrome.runtime.sendMessage({
+          type: 'FILL_FORM',
+          tabId: tab.id,
+          formId,
+          fieldData
+        }, (response) => {
+          if (chrome.runtime.lastError) {
+            reject(new Error(chrome.runtime.lastError.message))
+          } else {
+            resolve(response)
+          }
+        })
       })
 
       if (response.success) {
